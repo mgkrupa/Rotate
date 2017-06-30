@@ -82,8 +82,9 @@ void RotateRight(const RAI start_left, const RAI one_past_last_index_to_move,
 
       /************************************************************
       Note that there is NO if() inside this while() loop's body.
-      This is key way that this function differs from other rotate
+      This is one of the key way that this function differs from other rotate
        functions.
+      We also do NOT increment num_elements_moved_right within this loop's body.
       ************************************************************* */
       while(cur_it < start_right) {
         cur_it += length_to_move_right_by;

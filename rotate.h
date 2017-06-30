@@ -5,21 +5,27 @@
  *      Author: Matthew Gregory Krupa
  */
 
-#ifndef SRC_ROTATE_H_
-#define SRC_ROTATE_H_
+#ifndef ROTATE_H_
+#define ROTATE_H_
+
+#include <algorithm>
 
 /* Assumes that 0 < length_to_move_right_by < one_past_last_index_to_move
  *                                            - start_left.
  * Assumes that the iterator one_past_last_index_to_move + (length_left - 1) is
  *  defined (although it is NOT assumed that the value of this iterator can
- *  be taken, e.g. if iterator is of type long), where length_left is defined
- *  inside this function's body.
- * If _original is the original range of values inputed and if _result is this
- * range after this function finishes execution, then
+ *  be taken, (e.g. as is the case when if iterator is of type long),
+ *  where length_left is defined inside this function's body.
+ * If _original is the original range of values referenced by start_left and if
+ *  _result is this range after this function finishes execution, then
  *  _original[i] = _result[i + length_to_move_right_by] whenever
  *   i + length_to_move_right_by < one_past_last_index_to_move, and otherwise
  *  _original[i] = _result[start_left
  *    + (i + length_to_move_right_by - one_past_last_index_to_move)].
+ * i.e. it rotates the range to the right by length_to_move_right_by elements,
+ *  with those being "bumped off the right end" of the range being cycled
+ *  back to the beginning (i.e. the left side, which start_left references)
+ *  of the range.
  */
 template<class RAI>
 void RotateRight(const RAI start_left, const RAI one_past_last_index_to_move,
@@ -85,16 +91,29 @@ void RotateRight(const RAI start_left, const RAI one_past_last_index_to_move,
   return ;
 }
 
-#include <iostream>
-#include <vector>
-
-void RotateTest() {
-  std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8};
-  RotateRight(vec.begin() + 1, vec.begin() + 6, 2);
-
-  for (auto i = 0u; i < vec.size(); i++)
-    std::cout << vec[i] << " ";
-  std::cout << std::endl;
+/* Assumes that 0 < length_to_move_right_by < one_past_last_index_to_move
+ *                                            - start_left.
+ * Assumes that the iterator one_past_last_index_to_move + (length_left - 1) is
+ *  defined (although it is NOT assumed that the value of this iterator can
+ *  be taken, (e.g. as is the case when if iterator is of type long),
+ *  where length_left is defined inside this function's body.
+ * If _original is the original range of values referenced by start_left and if
+ *  _result is this range after this function finishes execution, then
+ *  _original[i] = _result[i - length_to_move_right_by] whenever
+ *   i - length_to_move_right_by < start_left, and otherwise
+ *  _original[i] = _result[one_past_last_index_to_move
+ *                 - ((one_past_last_index_to_move - i) + 1)].
+ * i.e. it rotates the range to the left by length_to_move_right_by elements,
+ *  with those being "bumped off the beginning" of the range being cycled
+ *  back to the end of the range.
+ */
+template<class RAI>
+inline void RotateLeft(const RAI start_left, const RAI one_past_last_index_to_move,
+                  const long length_to_move_left_by) {
+  auto length_to_move_right_by
+              = std::distance(start_left, one_past_last_index_to_move)
+                - length_to_move_left_by;
+  RotateRight(start_left, one_past_last_index_to_move, length_to_move_right_by);
 }
 
-#endif /* SRC_ROTATE_H_ */
+#endif /* ROTATE_H_ */

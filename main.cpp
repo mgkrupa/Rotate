@@ -3,7 +3,7 @@
 // Author      : Matthew Gregory Krupa
 // Version     :
 // Copyright   : MIT License
-// Description : Hello World in C++, Ansi-style
+// Description : Examples showing how to use RotateRight() and RotateLeft().
 //============================================================================
 
 #include "rotate.h"

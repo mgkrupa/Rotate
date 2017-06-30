@@ -74,8 +74,6 @@ void RotateRight(const RAI start_left, const RAI one_past_last_index_to_move,
       //The fastest way to compute this quantity is with the following formula
       //const int inner_while_num_swap_calls = (start_right
       //        + length_to_move_right_by - 1 - cur_it)/length_to_move_right_by;
-       //NOTE: cur_it > start_right IS possible (in fact, even cur_it
-      // > 200 + start_right is possible).
 
       //This loop's condition is true iff
       // cur_it + length_to_move_right_by <= max_index_moved_due_to_min
